@@ -1,0 +1,14 @@
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\bin\Debug\SimplePolygonGenerator.exe.config
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\bin\Debug\SimplePolygonGenerator.exe
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\bin\Debug\SimplePolygonGenerator.pdb
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.csprojAssemblyReference.cache
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\MainWindow.g.cs
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\App.g.cs
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator_MarkupCompile.cache
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator_MarkupCompile.lref
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\MainWindow.baml
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.g.resources
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.Properties.Resources.resources
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.csproj.GenerateResource.cache
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.exe
+C:\Users\tgurl\source\repos\SimplePolygonGenerator\obj\Debug\SimplePolygonGenerator.pdb

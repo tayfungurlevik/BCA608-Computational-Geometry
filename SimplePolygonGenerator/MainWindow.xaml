@@ -1,0 +1,34 @@
+﻿<Window x:Class="SimplePolygonGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimplePolygonGenerator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
+            <ColumnDefinition Width="1*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock Name="txtNoktaSayisi" Grid.Row="0" Grid.Column="1" Text="Poligon nokta sayısı:" Margin="10,10,0,0" VerticalAlignment="Top"></TextBlock>
+        <Slider x:Name="sliderNokta" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Margin="10,30,0,0" Width="300" Maximum="500" Minimum="3" SmallChange="1" Value="3" ValueChanged="sliderNokta_ValueChanged"/>
+        <TextBlock Text="Genişlik" Grid.Column="1" Margin="10,50,0,0"></TextBlock>
+        <TextBox x:Name="txtGenislik" Grid.Column="1" Margin="60.667,50,426,13" Width="80" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+        <TextBlock Grid.Column="1" Margin="157.667,50,55.333,0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top"><Run Text="Yüksekik"/>
+                
+            </TextBlock>
+        <TextBox x:Name="txtYukseklik" Grid.Column="1" Margin="216.667,50,270,13" RenderTransformOrigin="1.042,0.492" Width="80" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left"></TextBox>
+        <Button x:Name="btnOlustur" Content="Oluştur" Width="75" Grid.Column="1" Height="30" Margin="344.667,44,147,10" Click="btnOlustur_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="btnDosyayaYaz" Content="Dosyaya Yaz" Width="75" Grid.Column="1" Height="30" Margin="424.667,44,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnDosyayaYaz_Click"/>
+        <Canvas x:Name="CanvasPoligon" Grid.Row="1" Grid.ColumnSpan="3" Width="auto" Height="auto">
+            
+        </Canvas>
+       
+    </Grid>
+</Window>
