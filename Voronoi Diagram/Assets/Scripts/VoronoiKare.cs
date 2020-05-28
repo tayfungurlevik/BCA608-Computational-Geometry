@@ -77,10 +77,10 @@ public class VoronoiKare : MonoBehaviour
     }
     private void CalculateCorners()
     {
-        vertices[0] =  new Vector3(-1, -1, 0)* width/2*Mathf.Sqrt(2)/2 ;//Sol alt kose
-        vertices[1] = new Vector3(1, -1, 0) * width/2 * Mathf.Sqrt(2) / 2;//Sag alt kose
-        vertices[2] =  new Vector3(1, 1, 0)* width/2 * Mathf.Sqrt(2) / 2;//Sag ust kose
-        vertices[3] =  new Vector3(-1, 1, 0) * width/2 * Mathf.Sqrt(2) / 2;//Sol ust kose
+        vertices[0] =  (new Vector3(-1, -1, 0)).normalized* width*Mathf.Sqrt(2)/2 ;//Sol alt kose
+        vertices[1] = (new Vector3(1, -1, 0)).normalized * width * Mathf.Sqrt(2) / 2;//Sag alt kose
+        vertices[2] =  (new Vector3(1, 1, 0)).normalized* width* Mathf.Sqrt(2) / 2;//Sag ust kose
+        vertices[3] =  (new Vector3(-1, 1, 0)).normalized * width * Mathf.Sqrt(2) / 2;//Sol ust kose
     }
     private void OnDestroy()
     {

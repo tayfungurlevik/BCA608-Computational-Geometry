@@ -10,11 +10,12 @@ public class ControlPanel : MonoBehaviour
    
     
     [SerializeField]
-    private Slider siteCount;
-    [SerializeField]
     private VoronoiGrid voronoiGrid;
     [SerializeField]
     private PointGenerator pointGenerator;
+
+    
+
     public static event Action<int> OnKChanged = delegate { };
     public static event Action<int> OnGridXChanged = delegate { };
     public static event Action<int> OnGridYChanged = delegate { };

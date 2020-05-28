@@ -11,9 +11,9 @@ public class VoronoiGrid : MonoBehaviour
 
     public VoronoiKare[,] grid;
     public int x = 50;
-    
+
     public int k = 10;
-    
+
 
     [SerializeField]
     private VoronoiKare voronoiPrefab;
@@ -22,47 +22,26 @@ public class VoronoiGrid : MonoBehaviour
 
     [SerializeField]
     private LayerMask voronoiLayer;
-    
+    [SerializeField]
+    private LayerMask siteLayer;
     private Camera camera;
-   
-    
+    private bool isLeftShiftPressed = false;
+
     private void OnEnable()
     {
-       
-        
+
+
         ControlPanel.OnKChanged += ControlPanel_OnKChanged;
         PointGenerator.OnPointAdded += PointGenerator_OnPointAdded;
-        PointGenerator.OnPointRemoved += PointGenerator_OnPointRemoved;
-        
+
+
     }
 
-    private void PointGenerator_OnPointRemoved(List<PointPlaceholder> points,int removedIndex)
-    {
-        if (points.Count==0)
-        {
-            foreach (var item in grid)
-            {
-                item.color = UnityEngine.Color.red;
-                item.SiteIndex = -1;
-                item.GenerateMesh();
-            }
-        }
-        else
-        {
-            var deletedSitesSquares = grid.Cast<VoronoiKare>().Where(t => t.SiteIndex == removedIndex);
-            foreach (var item in deletedSitesSquares)
-            {
-                var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.transform.position, item.center)).FirstOrDefault();
-                item.color = enyakinSite.color;
-                item.SiteIndex = enyakinSite.Index;
-                item.GenerateMesh();
-            }
-        }
-    }
+
 
     private void PointGenerator_OnPointAdded(Vector3 position, UnityEngine.Color color, int siteIndex)
     {
-        if (siteIndex ==0)
+        if (siteIndex == 0)
         {
             //Eğer ilk voronoi noktasi ise tum kareleri boya
             foreach (var item in grid)
@@ -77,9 +56,9 @@ public class VoronoiGrid : MonoBehaviour
             foreach (var item in grid)
             {
                 //En yakindaki voronoinoktasinibul
-                var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.transform.position, item.center)).FirstOrDefault();
-                item.color = enyakinSite.color;
-                item.SiteIndex = siteIndex;
+                var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.Value.transform.position, item.center)).FirstOrDefault();
+                item.color = enyakinSite.Value.color;
+                item.SiteIndex = enyakinSite.Value.Index;
                 item.GenerateMesh();
             }
         }
@@ -89,6 +68,7 @@ public class VoronoiGrid : MonoBehaviour
     {
         ControlPanel.OnKChanged -= ControlPanel_OnKChanged;
         PointGenerator.OnPointAdded -= PointGenerator_OnPointAdded;
+
     }
     private void Start()
     {
@@ -97,21 +77,60 @@ public class VoronoiGrid : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        isLeftShiftPressed = Input.GetKey(KeyCode.LeftShift);
+        
+        if (Input.GetMouseButtonDown(0)&&!isLeftShiftPressed)
         {
             AddSiteToDiagram();
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1)&!isLeftShiftPressed)
         {
             RemoveSiteToDiagram();
         }
+        if (Input.GetMouseButton(0)&&isLeftShiftPressed)
+        {
+           var siteToMove=SelectTheSite();
+        }
+    }
+
+    private PointPlaceholder SelectTheSite()
+    {
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(ray, out hitInfo, 100, voronoiLayer))
+        {
+            if (hitInfo.collider == null)
+            {
+                return null;
+            }
+            var kare = hitInfo.collider.GetComponent<VoronoiKare>();
+            var hareketEttirilecekSite = pointGenerator.points[kare.SiteIndex];
+
+            //Debug.Log(hareketEttirilecekSite.Index);
+            pointGenerator.MovePoint(hareketEttirilecekSite.Index, hitInfo.point);
+            //Her bir kare icin
+            foreach (var item in grid)
+            {
+                //En yakindaki voronoinoktasinibul
+                var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.Value.transform.position, item.center)).FirstOrDefault();
+                item.color = enyakinSite.Value.color;
+                item.SiteIndex = enyakinSite.Value.Index;
+                item.GenerateMesh();
+            }
+            return hareketEttirilecekSite;
+
+        }
+        else
+            return null;
+        
     }
 
     private void RemoveSiteToDiagram()
     {
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100, voronoiLayer)) ;
+        if (Physics.Raycast(ray, out hitInfo, 100, voronoiLayer))
         {
             if (hitInfo.collider == null)
             {
@@ -120,10 +139,36 @@ public class VoronoiGrid : MonoBehaviour
             var kare = hitInfo.collider.GetComponent<VoronoiKare>();
             if (kare != null)
             {
-                //nokta verisini al
-                pointGenerator.RemovePoint(kare.SiteIndex);
-                
-                //o noktaya bir voronoi noktasi ata
+
+
+                if (pointGenerator.points.Count > 0)
+                {
+                    var sileneceknokta = pointGenerator.points[kare.SiteIndex];
+                    pointGenerator.RemovePoint(kare.SiteIndex);
+                    if (pointGenerator.points.Count == 0)
+                    {
+                        foreach (var item in grid)
+                        {
+                            item.color = UnityEngine.Color.red;
+                            item.SiteIndex = -1;
+                            item.GenerateMesh();
+                        }
+                    }
+                    else
+                    {
+                        var deletedSitesSquares = grid.Cast<VoronoiKare>().Where(t => t.SiteIndex == sileneceknokta.Index && t.color == sileneceknokta.color);
+                        pointGenerator.points.Remove(sileneceknokta.Index);
+                        foreach (var item in deletedSitesSquares)
+                        {
+                            var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.Value.transform.position, item.center)).FirstOrDefault();
+                            item.color = enyakinSite.Value.color;
+                            item.SiteIndex = enyakinSite.Key;
+                            item.GenerateMesh();
+                        }
+                    }
+                    Destroy(sileneceknokta.gameObject);
+                }
+
             }
         }
     }
@@ -132,7 +177,7 @@ public class VoronoiGrid : MonoBehaviour
     {
         Ray ray = camera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
-        if (Physics.Raycast(ray, out hitInfo, 100, voronoiLayer)) ;
+        if (Physics.Raycast(ray, out hitInfo, 100, voronoiLayer))
         {
             if (hitInfo.collider == null)
             {
@@ -144,7 +189,7 @@ public class VoronoiGrid : MonoBehaviour
                 //nokta verisini al
                 Vector3 tiklananNokta = hitInfo.point;
                 pointGenerator.AddPoint(tiklananNokta);
-               // Debug.Log("Tıklanan nokta="+tiklananNokta);
+                // Debug.Log("Tıklanan nokta="+tiklananNokta);
                 //o noktaya bir voronoi noktasi ata
             }
         }
@@ -156,20 +201,24 @@ public class VoronoiGrid : MonoBehaviour
         k = val;
         foreach (var item in grid)
         {
-            var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.transform.position, item.center)).FirstOrDefault();
-            item.color = enyakinSite.color;
-            
+            var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.Value.transform.position, item.center)).FirstOrDefault();
+            if (enyakinSite.Value!=null)
+            {
+                item.color = enyakinSite.Value.color;
+            }
+           
+
             item.GenerateMesh();
         }
         //KillGrid();
-        
+
         //GenerateGrid();
     }
 
-   
 
 
-    
+
+
 
 
 
@@ -192,7 +241,7 @@ public class VoronoiGrid : MonoBehaviour
                 grid[i, j].j = j;
                 grid[i, j].center = centerOfCell;
                 grid[i, j].color = UnityEngine.Color.red;
-                
+
             }
         }
 
@@ -204,6 +253,6 @@ public class VoronoiGrid : MonoBehaviour
             Destroy(item);
         }
     }
-    
+
 }
 

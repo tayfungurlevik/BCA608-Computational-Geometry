@@ -9,38 +9,51 @@ public class PointGenerator : MonoBehaviour
     [SerializeField]
     private PointPlaceholder pointPlaceholder;
     
-    public List<PointPlaceholder> points;
+    public Dictionary<int,PointPlaceholder> points;
     public  static event Action<Vector3,Color,int>  OnPointAdded = delegate { };
-    public static event Action<List<PointPlaceholder>,int> OnPointRemoved = delegate { };
+    private int k=10;
+    private int counter=0;
+    private void OnEnable()
+    {
+        ControlPanel.OnKChanged += ControlPanel_OnKChanged;
+    }
+
+    private void ControlPanel_OnKChanged(int obj)
+    {
+        k = obj;
+    }
+
     private void Start()
     {
-        points = new List<PointPlaceholder>();
+        points = new Dictionary<int, PointPlaceholder>();
+    }
+    public int RemovePoint(int key)
+    {
+        counter++;
+        points.Remove(key);
+        return counter;
     }
     
-    public void RemovePoint(int index)
-    {
-        if (points.Count>0)
-        {
-            var sileneceknokta = points[index];
-            points.RemoveAt(index);
-            Destroy(sileneceknokta.gameObject);
-            OnPointRemoved?.Invoke(points,index);
-        }
-        
-    }
     public void AddPoint(Vector3 newPoint)
     {
-       
+        counter++;
         var nokta = Instantiate(pointPlaceholder, newPoint, Quaternion.identity);
         nokta.color= UnityEngine.Random.ColorHSV(0f, 1f, 0.4f, 1f, 0.5f, 1f);
         nokta.color.a = 0.5f;
         
         nokta.transform.Translate(Vector3.back);
-        Debug.Log("Eklenen nokta" + nokta.transform.position);
-        points.Add(nokta);
-        nokta.Index = points.Count - 1;
-        OnPointAdded?.Invoke(newPoint,nokta.color,points.Count-1);
+        //Debug.Log("Eklenen nokta" + nokta.transform.position);
+        nokta.Index = counter;
+        nokta.K = k;
+        points.Add(counter, nokta);
+        
+        OnPointAdded?.Invoke(newPoint,nokta.color, nokta.Index);
        
+    }
+    public void MovePoint(int key,Vector3 newPosition)
+    {
+        points[key].transform.position = newPosition;
+        points[key].transform.Translate(Vector3.back);
     }
 
 }

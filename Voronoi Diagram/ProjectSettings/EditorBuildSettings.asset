@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/VoronoiGrid.unity
+    guid: 1db6f74a9d1c24e4d9bd1e2f5378a139
   m_configObjects: {}
