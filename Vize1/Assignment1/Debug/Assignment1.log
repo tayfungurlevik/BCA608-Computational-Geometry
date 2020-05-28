@@ -1,0 +1,6 @@
+﻿  LineOfSight.cpp
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\LineOfSight.cpp(105,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\LineOfSight.cpp(105,24): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\LineOfSight.cpp(139,35): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\LineOfSight.cpp(139,25): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  Assignment1.vcxproj -> D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\Debug\Assignment1.exe

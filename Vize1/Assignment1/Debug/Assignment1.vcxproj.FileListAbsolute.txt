@@ -1,0 +1,2 @@
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\Debug\Assignment1.exe
+D:\repos\BCA608-Computational-Geometry\Vize1\Assignment1\Debug\Assignment1.pdb

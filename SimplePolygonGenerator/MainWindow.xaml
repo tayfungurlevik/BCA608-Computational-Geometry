@@ -26,7 +26,7 @@
         <TextBox x:Name="txtYukseklik" Grid.Column="1" Margin="216.667,50,270,13" RenderTransformOrigin="1.042,0.492" Width="80" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left"></TextBox>
         <Button x:Name="btnOlustur" Content="Oluştur" Width="75" Grid.Column="1" Height="30" Margin="344.667,44,147,10" Click="btnOlustur_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button x:Name="btnDosyayaYaz" Content="Dosyaya Yaz" Width="75" Grid.Column="1" Height="30" Margin="424.667,44,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnDosyayaYaz_Click"/>
-        <Canvas x:Name="CanvasPoligon" Grid.Row="1" Grid.ColumnSpan="3" Width="auto" Height="auto">
+        <Canvas x:Name="CanvasPoligon" Grid.Row="1" Grid.ColumnSpan="3" Width="auto" Height="auto" MouseLeftButtonDown="CanvasPoligon_MouseLeftButtonDown" Background="#FFC5F9FB">
             
         </Canvas>
        

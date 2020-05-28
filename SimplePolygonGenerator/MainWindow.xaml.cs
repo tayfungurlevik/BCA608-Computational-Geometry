@@ -27,6 +27,8 @@ namespace SimplePolygonGenerator
         int noktaSayisi = 3;
         double width, height;
         Point[] sortedPoints;
+        Rectangle rectangle;
+        Point nokta;
         public MainWindow()
         {
             InitializeComponent();
@@ -103,12 +105,30 @@ namespace SimplePolygonGenerator
             }
         }
 
+        private void CanvasPoligon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show( e.MouseDevice.GetPosition(CanvasPoligon).ToString());
+            if (rectangle!=null)
+            {
+                CanvasPoligon.Children.Remove(rectangle);
+            }
+            nokta = e.GetPosition(CanvasPoligon);
+            rectangle = new Rectangle();
+            rectangle.Stroke = new SolidColorBrush(Colors.Black);
+            rectangle.Fill = new SolidColorBrush(Colors.Black);
+            rectangle.Width = 2;
+            rectangle.Height = 2;
+            Canvas.SetLeft(rectangle, nokta.X);
+            Canvas.SetTop(rectangle, nokta.Y);
+            CanvasPoligon.Children.Add(rectangle);
+        }
+
         private void DosyayaKaydet(string path)
         {
             
             using (TextWriter tw = new StreamWriter(path))
             {
-                tw.WriteLine(noktaSayisi);
+                tw.WriteLine(string.Format("{0} {1}",nokta.X,nokta.Y));
 
                 for (int i = 0; i < sortedPoints.Length-1; i++)
                 {
