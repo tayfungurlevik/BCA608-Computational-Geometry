@@ -156,6 +156,9 @@ public class VoronoiGrid : MonoBehaviour
         k = val;
         foreach (var item in grid)
         {
+            var enyakinSite = pointGenerator.points.OrderBy(t => Vector3.Distance(t.transform.position, item.center)).FirstOrDefault();
+            item.color = enyakinSite.color;
+            
             item.GenerateMesh();
         }
         //KillGrid();
